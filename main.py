@@ -7,10 +7,10 @@ class GOL:
         pass
     
     def randomGrid(self):
-        self.x = np.random.choice([0,255],4*4,p=[0.5,0.5]).reshape(4,4)  # Creates a random 4*4 grid with 0 or 255 value, 
+        self.grid = np.random.choice([0,255],10*10,p=[0.9,0.1]).reshape(10,10)  # Creates a random 4*4 grid with 0 or 255 value, 
         #0 being off and 255 being on, p is probability off either colour
         
-        plt.imshow(self.x)  # Displays
+        plt.imshow(self.grid)  # Displays
         
     def update(self):
         pass
@@ -20,4 +20,4 @@ class GOL:
     
 test = GOL()
 test.randomGrid()
-print(test.x)
+print(test.grid)
