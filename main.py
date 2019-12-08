@@ -1,2 +1,19 @@
 import numpy as np
-print('works')
+import matplotlib.pyplot as plt
+
+class GOL:
+
+	def __init__(self):
+		pass
+
+	def randomGrid(self):
+		pass
+
+	def update(self):
+		pass
+
+	def applyRules(self):
+		pass
+
+	def addGliders(self):
+		pass
