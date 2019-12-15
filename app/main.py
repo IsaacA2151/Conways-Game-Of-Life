@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import time
 
-size = 50
+size = 20
 
 class GOL:
     def __init__(self):
@@ -80,15 +79,19 @@ class GOL:
                 
                 if self.surrounding < 2 and self.grid[y][x] == 0 and [y,x] not in self.toDie:
                     self.toDie.append([y,x])
+                    #self.grid[y][x] = 255
                 
-                elif self.surrounding == 2 or 3 and self.grid[y][x] == 0 and [y,x] not in self.toLive:
+                elif self.surrounding == 2 or self.surrounding == 3 and self.grid[y][x] == 0 and [y,x] not in self.toLive:
                     self.toLive.append([y,x])
+                    #self.grid[y][x] = 0
                     
                 elif self.surrounding > 3 and self.grid[y][x] == 0 and [y,x] not in self.toDie:
-                    self.toDie.append([y,x])                       
+                    self.toDie.append([y,x])   
+                    #self.grid[y][x] = 255                    
                 
                 elif self.surrounding == 3 and self.grid[y][x] == 255 and [y,x] not in self.toLive:
                     self.toLive.append([y,x])
+                    #self.grid[y][x] = 0
 
         #print(self.grid)
         #print(self.toLive)
