@@ -4,68 +4,74 @@ import matplotlib.animation as animation
 
 size = 10
 
+
 class GOL:
     def __init__(self):
         self.surrounding = 0  # Keeps track of surrouding alive cells
-    
+
     def randomGrid(self):
-        self.grid = np.random.choice([0,255],size*size,p=[0.1,0.9]).reshape(size,size)  # Creates a random size*size grid with 0 or 255 value, 
+        # Creates a random size*size grid with 0 or 255 value,
+        self.grid = np.random.choice(
+            [0, 255], size*size, p=[0.1, 0.9]).reshape(size, size)
         # 0 being off and 255 being on, p is probability off either colour
-        
-        plt.imshow(self.grid)  # Displays
-        
+
+    def run(self):
+        while True:
+            self.update()
+            # uncomment next line to see the grid updating
+            # self.randomGrid()
+            self.showGrid()
+
     def update(self):
         pass
 
     def applyRules(self):
         pass
-    
+
+    def showGrid(self):
+        plt.imshow(self.grid)
+        plt.pause(0.1)
+
     def checkRules(self):
         print(self.grid)
-        for i in range(len(self.grid)):
-            for k in range(len(self.grid)):
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid)):
                 self.surrounding = 0
-                
-                checkCon = Conditionals(self.grid,i,k)
+
+                checkCon = Conditionals(self.grid, y, x)
                 checkCon.find()
                 
-                '''if checkCon.N:
-                    if self.grid[i-1][k] == 0:
+                if checkCon.N:
+                    if self.grid[y-1][x] == 0:
                         self.surrounding += 1
-                        
                 if checkCon.E:
-                    if self.grid[i][k+1] == 0:
+                    if self.grid[y][x+1] == 0:
                         self.surrounding += 1
-                        
                 if checkCon.S:
-                    if self.grid[i+1][k] == 0:
+                    if self.grid[y+1][x] == 0:
                         self.surrounding += 1
-                        
                 if checkCon.W:
-                    if self.grid[i][k-1] == 0:
+                    if self.grid[y][x-1] == 0:
                         self.surrounding += 1
-                        
                 if checkCon.NE:
-                    if self.grid[i-1][k+1] == 0:
+                    if self.grid[y-1][x+1] == 0:
                         self.surrounding += 1
-                        
                 if checkCon.SE:
-                    if self.grid[i+1][i+1] == 0:
+                    if self.grid[y+1][x+1] == 0:
                         self.surrounding += 1
-                
                 if checkCon.SW:
-                    if self.grid[i+1][k-1] == 0:
+                    if self.grid[y+1][x-1] == 0:
                         self.surrounding += 1
-                
                 if checkCon.NW:
-                    if self.grid[i-1][k-1] == 0:
-                        self.surrounding += 1            
+                    if self.grid[y-1][x-1] == 0:
+                        self.surrounding += 1
+                print(y,x,self.surrounding)
+                
 
-                print(i,k,self.surrounding)'''
 
 class Conditionals:
-    
-    def __init__(self,grid,y,x):
+
+    def __init__(self, grid, y, x):
         self.x = x
         self.y = y
         self.grid = grid
@@ -77,36 +83,29 @@ class Conditionals:
         self.SE = False
         self.SW = False
         self.NW = False
-        
-    
+
     def find(self):
         # These just check which directoins are possible without causing the index to go out of range
+        limit = len(self.grid) - 1
         if self.y != 0:
             self.N = True
-            
-        if self.x != len(self.grid):
+        if self.x != limit:
             self.E = True
-        
-        if self.y != len(self.grid):
+        if self.y != limit:
             self.S = True
-        
         if self.x != 0:
             self.W = True
-            
-        if self.y != 0 and self.x != len(self.grid):
+        if self.N and self.E:
             self. NE = True
-            
-        if self.y != len(self.grid) and self.x != len(self.grid):
+        if self.S and self.E:
             self.SE = True
-            
-        if self.y != len(self.grid) and self.x != 0:
+        if self.S and self.W:
             self.SW = True
-            
-        if self.y != 0 and self.x != 0:
+        if self.N and self.W:
             self.NW = True
-        
+
 
 test = GOL()
 test.randomGrid()
 test.checkRules()
-print(test.grid)
+#test.run()
