@@ -2,12 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-size = 10
+size = 50
 
 
 class GOL:
     def __init__(self):
         self.surrounding = 0  # Keeps track of surrouding alive cells
+        self.toLive = []
+        self.toDie = []
 
     def randomGrid(self):
         # Creates a random size*size grid with 0 or 255 value,
@@ -16,24 +18,31 @@ class GOL:
         # 0 being off and 255 being on, p is probability off either colour
 
     def run(self):
+        self.randomGrid()
+        
         while True:
-            self.update()
             # uncomment next line to see the grid updating
-            # self.randomGrid()
             self.showGrid()
+            self.checkRules()
+            self.applyRules()
 
-    def update(self):
-        pass
-
-    def applyRules(self):
-        pass
 
     def showGrid(self):
         plt.imshow(self.grid)
         plt.pause(0.1)
+        
+    def applyRules(self):
+        for i in range(len(self.toLive)):
+            self.grid[self.toLive[i][0]][self.toLive[i][1]] = 0
+            
+        for i in range(len(self.toDie)):
+            self.grid[self.toDie[i][0]][self.toDie[i][1]] = 255
+            
+        #print(self.grid)
+        
 
     def checkRules(self):
-        print(self.grid)
+        #print(self.grid)
         for y in range(len(self.grid)):
             for x in range(len(self.grid)):
                 self.surrounding = 0
@@ -65,9 +74,25 @@ class GOL:
                 if checkCon.NW:
                     if self.grid[y-1][x-1] == 0:
                         self.surrounding += 1
-                print(y,x,self.surrounding)
+                #print(y,x,self.surrounding)
                 
+                
+                if self.surrounding < 2 and self.grid[y][x] == 0:
+                    self.toDie.append([y,x])
+                
+                elif self.surrounding == 2 or 3 and self.grid[y][x] == 0:
+                    self.toLive.append([y,x])
+                    
+                elif self.surrounding > 3 and self.grid[y][x] == 0:
+                    self.toDie.append([y,x])                       
+                
+                elif self.surrounding == 3 and self.grid[y][x] == 255:
+                    self.toLive.append([y,x])
 
+        #print(self.grid)
+        #print(self.toLive)
+        #print('\n')
+        #print(self.toDie)
 
 class Conditionals:
 
@@ -106,6 +131,4 @@ class Conditionals:
 
 
 test = GOL()
-test.randomGrid()
-test.checkRules()
-#test.run()
+test.run()
