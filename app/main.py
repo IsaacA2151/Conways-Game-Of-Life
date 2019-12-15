@@ -33,13 +33,14 @@ class GOL:
         plt.pause(0.1)
 
     def checkRules(self):
+        print(self.grid)
         for y in range(len(self.grid)):
             for x in range(len(self.grid)):
                 self.surrounding = 0
 
                 checkCon = Conditionals(self.grid, y, x)
                 checkCon.find()
-                """
+                
                 if checkCon.N:
                     if self.grid[y-1][x] == 0:
                         self.surrounding += 1
@@ -64,8 +65,8 @@ class GOL:
                 if checkCon.NW:
                     if self.grid[y-1][x-1] == 0:
                         self.surrounding += 1
-                # print(y,x,self.surrounding)
-                """
+                print(y,x,self.surrounding)
+                
 
 
 class Conditionals:
@@ -85,11 +86,12 @@ class Conditionals:
 
     def find(self):
         # These just check which directoins are possible without causing the index to go out of range
+        limit = len(self.grid) - 1
         if self.y != 0:
             self.N = True
-        if self.x != len(self.grid):
+        if self.x != limit:
             self.E = True
-        if self.y != len(self.grid):
+        if self.y != limit:
             self.S = True
         if self.x != 0:
             self.W = True
@@ -106,4 +108,4 @@ class Conditionals:
 test = GOL()
 test.randomGrid()
 test.checkRules()
-test.run()
+#test.run()
