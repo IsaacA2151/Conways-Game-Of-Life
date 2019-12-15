@@ -3,24 +3,20 @@ import matplotlib.pyplot as plt
 
 
 class GOL:
-    def __init__(self, size):
+    def __init__(self, size, figsize, grid):
         self.surrounding = 0  # Keeps track of surrouding alive cells
         self.toLive = []
         self.toDie = []
         self.size = size
-        plt.figure(figsize=(10, 10))
+        plt.figure(figsize=figsize)
 
-    def randomGrid(self):
-        # Creates a random self.size*self.size grid with 0 or 255 value,
-        self.grid = np.random.choice(
-            [0, 255], self.size*self.size, p=[0.1, 0.9]).reshape(self.size, self.size)
-        # 0 being off and 255 being on, p is probability off either colour
+        if grid is None:
+            self.grid = np.random.choice([0, 255], self.size*self.size, p=[0.1, 0.9]).reshape(self.size, self.size)
+        else:
+            self.grid = grid
 
     def run(self):
-        self.randomGrid()
-
         while True:
-            # uncomment next line to see the grid updating
             self.toDie = []
             self.toLive = []
             self.showGrid()
@@ -38,10 +34,7 @@ class GOL:
         for i in range(len(self.toDie)):
             self.grid[self.toDie[i][0]][self.toDie[i][1]] = 255
 
-        # print(self.grid)
-
     def checkRules(self):
-        # print(self.grid)
         for y in range(len(self.grid)):
             for x in range(len(self.grid)):
                 self.surrounding = 0
@@ -65,25 +58,20 @@ class GOL:
                     self.surrounding += 1
                 if checkCon.NW and self.grid[y-1][x-1] == 0:
                     self.surrounding += 1
-                # print(y,x,self.surrounding)
 
                 if (self.surrounding == 3 or (self.surrounding == 2 and self.grid[y][x] == 0)) and [y, x] not in self.toLive:
                     self.toLive.append([y, x])
-                    # self.grid[y][x] = 0
 
                 elif self.surrounding < 2 and self.grid[y][x] == 0 and [y, x] not in self.toDie:
                     self.toDie.append([y, x])
-                    # self.grid[y][x] = 255
 
                 elif self.surrounding > 3 and self.grid[y][x] == 0 and [y, x] not in self.toDie:
                     self.toDie.append([y, x])
-                    # self.grid[y][x] = 255
 
         # print(self.grid)
         # print(self.toLive)
         # print('\n')
         # print(self.toDie)
-
 
 class Conditionals:
 
@@ -122,5 +110,11 @@ class Conditionals:
             self.NW = True
 
 
-test = GOL(100)
+config = {
+    'size': 100,
+    'figsize': (10, 10),
+    'grid': None,
+}
+
+test = GOL(**config)
 test.run()
