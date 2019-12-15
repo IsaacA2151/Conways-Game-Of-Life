@@ -28,11 +28,11 @@ class GOL:
         plt.pause(0.01)
 
     def applyRules(self):
-        for i in range(len(self.toLive)):
-            self.grid[self.toLive[i][0]][self.toLive[i][1]] = 0
+        for i in self.toLive:
+            self.grid[i[0]][i[1]] = 0
 
-        for i in range(len(self.toDie)):
-            self.grid[self.toDie[i][0]][self.toDie[i][1]] = 255
+        for i in self.toDie:
+            self.grid[i[0]][i[1]] = 255
 
     def checkRules(self):
         for y in range(len(self.grid)):
@@ -59,19 +59,13 @@ class GOL:
                 if checkCon.NW and self.grid[y-1][x-1] == 0:
                     self.surrounding += 1
 
-                if (self.surrounding == 3 or (self.surrounding == 2 and self.grid[y][x] == 0)) and [y, x] not in self.toLive:
+                del checkCon
+
+                if self.surrounding == 3 and self.grid[y][x] == 255:
                     self.toLive.append([y, x])
-
-                elif self.surrounding < 2 and self.grid[y][x] == 0 and [y, x] not in self.toDie:
+                elif self.grid[y][x] == 0 and self.surrounding not in (2, 3):
                     self.toDie.append([y, x])
 
-                elif self.surrounding > 3 and self.grid[y][x] == 0 and [y, x] not in self.toDie:
-                    self.toDie.append([y, x])
-
-        # print(self.grid)
-        # print(self.toLive)
-        # print('\n')
-        # print(self.toDie)
 
 class Conditionals:
 
