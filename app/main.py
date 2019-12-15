@@ -25,7 +25,7 @@ class GOL:
 
     def showGrid(self):
         plt.imshow(self.grid)
-        plt.pause(0.1)
+        plt.pause(0.01)
 
     def applyRules(self):
         for i in range(len(self.toLive)):
@@ -40,7 +40,7 @@ class GOL:
                 self.surrounding = 0
 
                 checkCon = Conditionals(self.grid, y, x)
-                checkCon.find()
+                checkCon.checkEnv()
 
                 if checkCon.N and self.grid[y-1][x] == 0:
                     self.surrounding += 1
@@ -88,8 +88,7 @@ class Conditionals:
         self.SW = False
         self.NW = False
 
-    def find(self):
-        # These just check which directions are possible without causing the index to go out of range
+    def checkEnv(self):
         limit = len(self.grid) - 1
         if self.y == 0:
             self.N = False
